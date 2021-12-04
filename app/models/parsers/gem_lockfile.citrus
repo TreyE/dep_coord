@@ -1,0 +1,136 @@
+grammar Parsers::GemLockfile
+  rule lockfile
+    (gemspec* other_sections* bundled_with?) {
+       def value
+         captures[:gemspec].map(&:value)
+       end
+    }
+  end
+
+  rule other_sections
+    platforms | dependencies | ruby_version
+  end
+
+  rule key_values
+    ("  " !"specs:" key:[^:]+ ':' [\s\t]+ kvalue:[^\n]+ "\n") {
+      def value
+        [capture(:key).value.to_sym, capture(:kvalue).value]
+      end
+    }
+  end
+
+  rule gemspec
+    gitspec | pathspec | gem_section
+  end
+
+  rule spec_def
+     ("    " spec_name:(~"(" "(" ~")" ")") eol spec_children*) {
+       def value
+         capture(:spec_name).value
+       end
+     }
+  end
+
+  rule spec_with_version
+    (spec_name:~"(" "(" v_constraint:~")" ")" eol) {
+      def value
+        {:name => capture(:spec_name).value.strip, :version_constraint => capture(:v_constraint).value}
+      end
+    }
+  end
+
+  rule spec_without_version
+    (spec_name:~"\n" eol) {
+      def value
+        {:name => capture(:spec_name).value.strip}
+      end
+    }
+  end
+
+  rule git_spec_def
+     ("    " spec_name:(spec_with_version | spec_without_version) spec_children*) {
+       def value
+         capture(:spec_name).value
+       end
+     }
+  end
+
+  rule spec_children
+     "      " ~"\n" eol
+  end
+
+  rule specs_section
+    ("  specs:\n" spec_def+) {
+      def value
+        [:specs, captures[:spec_def].map(&:value).map(&:strip)]
+      end
+    }
+  end
+
+  rule git_specs_section
+    ("  specs:\n" git_spec_def) {
+      def value
+        capture(:git_spec_def).value
+      end
+    }
+  end
+
+  rule gitspec
+    ("GIT\n" key_values+ git_specs_section eol) {
+      def value
+        k_v = captures(:key_values).map(&:value).to_h
+        [:GIT, k_v.merge(capture(:git_specs_section).value)]
+      end
+    }
+  end
+
+  rule pathspec
+    ("PATH\n" key_values+ git_specs_section eol) {
+      def value
+        k_v = captures(:key_values).map(&:value).to_h
+        [:PATH, k_v.merge(capture(:git_specs_section).value)]
+      end
+    }
+  end
+
+  rule gems_specs_section
+    ("  specs:\n" git_spec_def*) {
+      def value
+        captures[:git_spec_def].map(&:value)
+      end
+    }
+  end
+
+  rule gem_section
+    ("GEM\n" key_values+ gems_specs_section+ eol) {
+      def value
+        k_v = captures(:key_values).map(&:value).to_h
+        [:GEMS, k_v, capture(:gems_specs_section).value]
+      end
+    }
+  end
+
+  rule platforms
+    "PLATFORMS\n" line* eol
+  end
+
+  rule dependencies
+    "DEPENDENCIES\n" line* eol
+  end
+
+  rule ruby_version
+    "RUBY VERSION\n" line* eol
+  end
+
+  rule bundled_with
+    "BUNDLED WITH\n" ~"\n" eol?
+  end
+
+  rule eol
+    "\n"
+  end
+
+  rule line
+    [^\n]+ eol
+  end
+end
