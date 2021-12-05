@@ -21,7 +21,8 @@ module Parsers
     def cast(res)
       case res
       in [:GIT, gitspec]
-        [gitspec]
+        git_branch_dependency = GitBranchDependency.new(gitspec)
+        [BranchDependency.new(name: gitspec[:name], git: git_branch_dependency)]
       in [:PATH, pathspec]
         [gitspec]
       in [:GEMS, _, gemspecs]
@@ -32,7 +33,8 @@ module Parsers
     end
 
     def build_gem_spec(gs)
-      gs
+      gem_branch_dependency = GemBranchDependency.new(gs)
+      BranchDependency.new(name: gs[:name], gem: gem_branch_dependency)
     end
   end
 end

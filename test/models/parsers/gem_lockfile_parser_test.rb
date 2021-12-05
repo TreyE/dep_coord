@@ -13,7 +13,10 @@ module Parsers
       )
       parser = Parsers::GemLockfileParser.new
       result = parser.parse file_content
-      raise result.inspect
+      results = result.select { |r| r.is_a?(BranchDependency) }
+
+      git_gems = results.select { |r| r.git? }
+      assert_equal(7, git_gems.length)
     end
   end
 end
