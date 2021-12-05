@@ -4,4 +4,4 @@ CREATE TABLE dependency_project_records%SUFFIX% (
   main_branch varchar(1024) NOT NULL
 );
 
-CREATE INDEX ehs_id_aggregate_id%SUFFIX% ON dependency_project_records%SUFFIX% USING btree (aggregate_id);
+CREATE INDEX dependency_project_records_aggregate_id%SUFFIX% ON dependency_project_records%SUFFIX% USING btree (aggregate_id);
