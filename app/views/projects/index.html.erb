@@ -2,6 +2,13 @@
 
 <ul>
 <% @projects.each do |project| %>
-  <li><%= project.name %></li>
+  <li>
+  <%= project.name %> - <%= project.main_branch%>
+  <ul>
+    <% project.dependency_project_branch_records.each do |branch| %>
+      <li><%= branch.name %> - <%= latest_branch_link_if_available(branch) %></li>
+    <% end %>
+  </ul>
+  </li>
 <% end %>
 </ul>

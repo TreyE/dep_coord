@@ -1,0 +1,21 @@
+<h1><%= @branch_version_record.project_name %>: <%= @branch_version_record.branch_name %> - <%= @branch_version_record.sha %><h1>
+
+<% git_dependencies = @branch_version_record.branch_dependency_records.select(&:git?) %>
+<% if git_dependencies.any? %>
+  <h2>Git</h2>
+  <ul>
+    <% git_dependencies.each do |dep| %>
+      <li><%= dep.name %> - <%= dep.revision %> <%= dep.branch %> <%= dep.version_constraint %> <%= dep.remote %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% gem_dependencies = @branch_version_record.branch_dependency_records.select(&:gem?) %>
+<% if gem_dependencies.any? %>
+  <h2>Gems</h2>
+  <ul>
+    <% gem_dependencies.each do |dep| %>
+      <li><%= dep.name %> - <%= dep.version_constraint %></li>
+    <% end %>
+  </ul>
+<% end %>
