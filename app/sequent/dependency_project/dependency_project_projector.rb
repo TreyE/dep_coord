@@ -6,6 +6,7 @@ class DependencyProjectProjector < Sequent::Projector
       DependencyProjectRecord,
       {
         aggregate_id: event.aggregate_id,
+        name: event.name,
         main_branch: event.main_branch
       }
     )

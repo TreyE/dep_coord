@@ -1,14 +1,13 @@
 class DependencyProjectDependenciesTest < ActiveSupport::TestCase
   test "creates a dependency project and children from a gemfile" do
-    command = CreateDependencyProject.create("some_dep_project", "the_git_url", "trunk")
+    command = CreateDependencyProject.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk")
     Sequent.command_service.execute_commands command
 
     file_content = File.read(
       File.expand_path(
         File.join(
-          File.dirname(__FILE__),
-          "..",
-          "..",
+          Rails.root,
+          "test",
           "models",
           "parsers",
           "Gemfile.lock"
@@ -21,10 +20,10 @@ class DependencyProjectDependenciesTest < ActiveSupport::TestCase
 
     commands = results.map do |res|
       AddBranchDependency.create(
-        "some_dep_project",
-        "the_git_url",
+        "enroll",
+        "git@github.com:ideacrew/enroll.git",
         "trunk",
-        "asdkjlkennfskd",
+        "f3308d0aada7d61cc93ec281aacb3b8432008aaf",
         res
       )
     end
