@@ -1,17 +1,18 @@
 require_relative '../../app/sequent/dependency_project'
+require_relative '../../app/sequent/dependency_source'
 require_relative '../../db/sequent_migrations'
   
 Sequent.configure do |config|
  config.migrations_class_name = 'SequentMigrations'
   
  config.command_handlers = [
-   DependencyProjectCommandHandler.new
-   # add you Sequent::CommandHandler's here
+   DependencyProjectCommandHandler.new,
+   DependencySourceCommandHandler.new
  ]
   
  config.event_handlers = [
-   # add you Sequent::Projector's or Sequent::Workflows's here
-   DependencyProjectProjector.new
+   DependencyProjectProjector.new,
+   DependencySourceProjector.new
  ]
 
  config.database_config_directory = 'config'

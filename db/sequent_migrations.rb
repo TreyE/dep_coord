@@ -8,7 +8,8 @@ class SequentMigrations < Sequent::Migrations::Projectors
  def self.versions
    {
      '1' => [
-       DependencyProjectProjector
+       DependencyProjectProjector,
+       DependencySourceProjector
        # List of migrations for version 1
      ],
    }
