@@ -1,7 +1,8 @@
 class CreateDependencyProject < Sequent::Command
   attrs({
     name: String,
-    main_branch: String
+    main_branch: String,
+    remote: String
   })
 
   def self.create(project_name,git_uri,main_branch)
@@ -9,6 +10,7 @@ class CreateDependencyProject < Sequent::Command
     self.new({
       aggregate_id: aggregate_id,
       name: project_name,
+      remote: git_uri,
       main_branch: main_branch
     })
   end

@@ -7,7 +7,8 @@ class DependencyProjectProjector < Sequent::Projector
       {
         aggregate_id: event.aggregate_id,
         name: event.name,
-        main_branch: event.main_branch
+        main_branch: event.main_branch,
+        remote: event.remote
       }
     )
   end

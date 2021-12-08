@@ -28,6 +28,7 @@ class DependencyProject < Sequent::AggregateRoot
   on DependencyProjectCreated do |event|
     @name = event.name
     @main_branch = event.main_branch
+    @remote = event.remote
     @branches = []
   end
 

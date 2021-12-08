@@ -1,7 +1,8 @@
 class DependencyProjectCreated < Sequent::Event
   attrs({
     name: String,
-    main_branch: String
+    main_branch: String,
+    remote: String
   })
 end
 
