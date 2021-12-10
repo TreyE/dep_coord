@@ -1,5 +1,7 @@
 require_relative '../../app/sequent/dependency_project'
 require_relative '../../app/sequent/dependency_source'
+require_relative '../../app/sequent/out_of_date_dependency'
+# require_relative '../../app/sequent/projectors'
 require_relative '../../db/sequent_migrations'
   
 Sequent.configure do |config|
@@ -12,7 +14,8 @@ Sequent.configure do |config|
   
  config.event_handlers = [
    DependencyProjectProjector.new,
-   DependencySourceProjector.new
+   DependencySourceProjector.new,
+   OutOfDateDependencyProjector.new
  ]
 
  config.database_config_directory = 'config'

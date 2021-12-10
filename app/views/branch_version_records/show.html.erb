@@ -1,3 +1,5 @@
+<div class="pure-u-1">
+
 <h1><%= @branch_version_record.project_name %>: <%= @branch_version_record.branch_name %> - <%= @branch_version_record.sha %><h1>
 
 <% git_dependencies = @branch_version_record.branch_dependency_records.select(&:git?) %>
@@ -11,7 +13,7 @@
       <li>
         <%= dep.name %> - <%= dep.revision %> <%= dep.branch %> <%= dep.version_constraint %> <%= dep.remote %>
         <% if out_of_date_dependencies.has_key?(dep.id) %>
-          <br><strong>out of date: <%= out_of_date_dependencies[dep.id]["head_version"] %> is current</strong>
+          <br><strong>out of date: <%= out_of_date_dependencies[dep.id].head_version %> is current</strong>
         <% end %>
       </li>
     <% end %>
@@ -27,3 +29,5 @@
     <% end %>
   </ul>
 <% end %>
+
+</div>
