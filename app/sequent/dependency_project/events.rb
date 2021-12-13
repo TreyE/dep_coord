@@ -9,7 +9,8 @@ end
 class DependencyProjectBranchCreated < Sequent::Event
   attrs({
     name: String,
-    sha: String
+    sha: String,
+    version_timestamp: DateTime
   })
 end
 
@@ -30,6 +31,22 @@ class BranchDependencyUpdated < Sequent::Event
 end
 
 class BranchVersionCreated < Sequent::Event
+  attrs({
+    branch_name: String,
+    branch_revision: String,
+    version_timestamp: DateTime
+  })
+end
+
+class BranchVersionUpdated < Sequent::Event
+  attrs({
+    branch_name: String,
+    branch_revision: String,
+    version_timestamp: DateTime
+  })
+end
+
+class BranchVersionSelected < Sequent::Event
   attrs({
     branch_name: String,
     branch_revision: String

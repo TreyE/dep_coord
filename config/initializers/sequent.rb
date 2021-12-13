@@ -6,7 +6,7 @@ require_relative '../../db/sequent_migrations'
   
 Sequent.configure do |config|
  config.migrations_class_name = 'SequentMigrations'
-  
+
  config.command_handlers = [
    DependencyProjectCommandHandler.new,
    DependencySourceCommandHandler.new

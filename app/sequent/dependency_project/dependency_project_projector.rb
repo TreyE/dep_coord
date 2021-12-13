@@ -26,7 +26,8 @@ class DependencyProjectProjector < Sequent::Projector
       BranchVersionRecord,
       {
         dependency_project_branch_record_id: dpbr.id,
-        sha: event.sha
+        sha: event.sha,
+        version_timestamp: event.version_timestamp
       }
     )
   end
@@ -39,10 +40,35 @@ class DependencyProjectProjector < Sequent::Projector
       BranchVersionRecord,
       {
         dependency_project_branch_record_id: b_record.id,
-        sha: event.branch_revision
+        sha: event.branch_revision,
+        version_timestamp: event.version_timestamp
       }
     )
 
+    update_all_records(
+      DependencyProjectBranchRecord,
+      {dependency_project_record_aggregate_id: event.aggregate_id, name: event.branch_name},
+      {head: event.branch_revision}
+    )
+  end
+
+  on BranchVersionUpdated do |event|
+    dp_record = get_record!(DependencyProjectRecord, {aggregate_id: event.aggregate_id})
+    b_record = get_record!(DependencyProjectBranchRecord, {dependency_project_record_aggregate_id: event.aggregate_id, name: event.branch_name})
+
+    update_all_records(
+      BranchVersionRecord,
+      {
+        dependency_project_branch_record_id: b_record.id,
+        sha: event.branch_revision
+      },
+      {
+        version_timestamp: event.version_timestamp
+      }
+    )
+  end
+
+  on BranchVersionSelected do |event|
     update_all_records(
       DependencyProjectBranchRecord,
       {dependency_project_record_aggregate_id: event.aggregate_id, name: event.branch_name},

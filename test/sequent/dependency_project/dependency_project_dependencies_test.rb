@@ -1,3 +1,5 @@
+require "test_helper"
+
 class DependencyProjectDependenciesTest < ActiveSupport::TestCase
   test "creates a dependency project and children from a gemfile" do
     command = CreateDependencyProject.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk")
@@ -24,6 +26,7 @@ class DependencyProjectDependenciesTest < ActiveSupport::TestCase
         "git@github.com:ideacrew/enroll.git",
         "trunk",
         "f3308d0aada7d61cc93ec281aacb3b8432008aaf",
+        DateTime.new(2021,10,31,15,11,41),
         res
       )
     end

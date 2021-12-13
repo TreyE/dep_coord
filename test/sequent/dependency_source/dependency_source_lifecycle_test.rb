@@ -1,3 +1,5 @@
+require "test_helper"
+
 class DependencySourceLifecycleTest < ActiveSupport::TestCase
   test "creates a dependency source" do
     command = CreateDependencySource.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk")

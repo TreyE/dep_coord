@@ -5,7 +5,7 @@ class DependencyProjectCommandHandler < Sequent::CommandHandler
 
   on AddBranchDependency do |command|
     do_with_aggregate(command, DependencyProject) do |aggregate|
-      aggregate.add_branch_dependency(command.branch_name, command.branch_revision, command.branch_dependency)
+      aggregate.add_branch_dependency(command.branch_name, command.branch_revision, command.version_timestamp, command.branch_dependency)
     end
   end
 end

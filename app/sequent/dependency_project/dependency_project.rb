@@ -4,14 +4,19 @@ class DependencyProject < Sequent::AggregateRoot
     apply DependencyProjectCreated, command.attributes
   end
 
-  def add_branch_dependency(branch_name, branch_revision, branch_dependency)
+  def add_branch_dependency(branch_name, branch_revision, version_timestamp, branch_dependency)
     existing_branch = @branches.detect { |b| b.name == branch_name }
     if !existing_branch
-      apply DependencyProjectBranchCreated, {name: branch_name, sha: branch_revision}
+      apply DependencyProjectBranchCreated, {name: branch_name, sha: branch_revision, version_timestamp: version_timestamp}
       apply BranchDependencyCreated, {branch_name: branch_name, branch_revision: branch_revision, branch_dependency: branch_dependency}
     else
       existing_branch_version = existing_branch.versions.detect { |v| v.sha == branch_revision }
+      most_recent_branch_version = existing_branch.versions.max_by(&:version_timestamp)
       if existing_branch_version
+        apply BranchVersionUpdated, {branch_name: branch_name, branch_revision: branch_revision, version_timestamp: version_timestamp}
+        if most_recent_branch_version.blank? || (most_recent_branch_version && (most_recent_branch_version.version_timestamp < version_timestamp))
+          apply BranchVersionSelected, {branch_name: branch_name, branch_revision: branch_revision}
+        end
         existing_dependency = existing_branch_version.dependencies.detect { |d| d.name == branch_dependency.name }
         if existing_dependency
           apply BranchDependencyUpdated, {branch_name: branch_name, branch_revision: branch_revision, branch_dependency: branch_dependency}
@@ -19,7 +24,10 @@ class DependencyProject < Sequent::AggregateRoot
           apply BranchDependencyCreated, {branch_name: branch_name, branch_revision: branch_revision, branch_dependency: branch_dependency}
         end
       else
-        apply BranchVersionCreated, {branch_name: branch_name, branch_revision: branch_revision}
+        apply BranchVersionCreated, {branch_name: branch_name, branch_revision: branch_revision, version_timestamp: version_timestamp}
+        if most_recent_branch_timestamp.blank? || (most_recent_branch_timestamp < version_timestamp)
+          apply BranchVersionSelected, {branch_name: branch_name, branch_revision: branch_revision}
+        end
         apply BranchDependencyCreated, {branch_name: branch_name, branch_revision: branch_revision, branch_dependency: branch_dependency}
       end
     end
@@ -35,6 +43,7 @@ class DependencyProject < Sequent::AggregateRoot
   on DependencyProjectBranchCreated do |event|
     new_version = BranchVersion.new({
       sha: event.sha,
+      version_timestamp: event.version_timestamp,
       dependencies: []
     })
     new_branch = DependencyProjectBranch.new({
@@ -65,11 +74,16 @@ class DependencyProject < Sequent::AggregateRoot
 
   on BranchVersionCreated do |event|
     branch = @branches.detect { |b| b.name == event.branch_name }
-    branch.head = event.branch_revision
     new_version = BranchVersion.new({
       sha: event.branch_revision,
+      version_timestamp: event.version_timestamp,
       dependencies: []
     })
     branch.versions << new_version
+  end
+
+  on BranchVersionSelected do |event|
+    branch = @branches.detect { |b| b.name == event.branch_name }
+    branch.head = event.branch_revision
   end
 end

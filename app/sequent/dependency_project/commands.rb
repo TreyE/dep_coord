@@ -20,16 +20,18 @@ class AddBranchDependency < Sequent::Command
   attrs({
     branch_name: String,
     branch_revision: String,
-    branch_dependency: BranchDependency
+    branch_dependency: BranchDependency,
+    version_timestamp: DateTime
   })
 
-  def self.create(project_name,git_uri,branch_name,branch_revision,branch_dependency)
+  def self.create(project_name,git_uri,branch_name,branch_revision,version_timestamp,branch_dependency)
     aggregate_id = "#{git_uri}__#{project_name}"
     self.new({
       aggregate_id: aggregate_id,
       branch_name: branch_name,
       branch_revision: branch_revision,
-      branch_dependency: branch_dependency
+      branch_dependency: branch_dependency,
+      version_timestamp: version_timestamp
     })
   end
 end

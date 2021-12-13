@@ -24,6 +24,7 @@ task :load_example_data => :environment do
       "git@github.com:ideacrew/enroll.git",
       "trunk",
       "f3308d0aada7d61cc93ec281aacb3b8432008aaf",
+      DateTime.new(2021,10,31,15,11,41),
       res
     )
   end
