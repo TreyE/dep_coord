@@ -13,7 +13,7 @@ class DependencySourceLifecycleTest < ActiveSupport::TestCase
     command = CreateDependencySource.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk")
     Sequent.command_service.execute_commands command
 
-    branch_command = AddDependencySourceBranch.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk", "1387412341234abcde")
+    branch_command = AddDependencySourceBranch.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk", "1387412341234abcde", DateTime.new(2021,10,31,15,11,41))
     Sequent.command_service.execute_commands branch_command
 
     branch_record = DependencySourceBranchRecord.where({dependency_source_record_aggregate_id: command.aggregate_id}).first
@@ -24,10 +24,10 @@ class DependencySourceLifecycleTest < ActiveSupport::TestCase
     command = CreateDependencySource.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk")
     Sequent.command_service.execute_commands command
 
-    branch_command = AddDependencySourceBranch.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk", "1387412341234abcde")
+    branch_command = AddDependencySourceBranch.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk", "1387412341234abcde", DateTime.new(2021,10,31,15,11,41))
     Sequent.command_service.execute_commands branch_command
 
-    branch_update_command = AddDependencySourceBranch.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk", "234update")
+    branch_update_command = AddDependencySourceBranch.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk", "234update", DateTime.new(2021,10,31,15,12,42))
     Sequent.command_service.execute_commands branch_update_command
 
     branch_record = DependencySourceBranchRecord.where({dependency_source_record_aggregate_id: command.aggregate_id}).first

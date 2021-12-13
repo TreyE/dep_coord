@@ -19,15 +19,17 @@ end
 class AddDependencySourceBranch < Sequent::Command
   attrs({
     name: String,
-    sha: String
+    sha: String,
+    version_timestamp: DateTime
   })
 
-  def self.create(project_name,git_uri, branch_name, sha)
+  def self.create(project_name,git_uri, branch_name, sha, version_timestamp)
     aggregate_id = "#{git_uri}__#{project_name}"
     self.new({
       aggregate_id: aggregate_id,
       name: branch_name,
-      sha: sha
+      sha: sha,
+      version_timestamp: version_timestamp
     })
   end
 end

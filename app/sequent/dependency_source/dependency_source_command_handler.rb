@@ -5,7 +5,7 @@ class DependencySourceCommandHandler < Sequent::CommandHandler
 
   on AddDependencySourceBranch do |command|
     do_with_aggregate(command, DependencySource) do |aggregate|
-      aggregate.add_branch_version(command.name, command.sha)
+      aggregate.add_branch_version(command.name, command.sha, command.version_timestamp)
     end
   end
 end
