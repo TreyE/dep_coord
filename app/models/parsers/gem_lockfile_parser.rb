@@ -21,7 +21,8 @@ module Parsers
     def cast(res)
       case res
       in [:GIT, gitspec]
-        git_branch_dependency = GitBranchDependency.new(gitspec)
+        dependency_properties = normalize_git_uri(gitspec)
+        git_branch_dependency = GitBranchDependency.new(dependency_properties)
         [BranchDependency.new(name: gitspec[:name], git: git_branch_dependency)]
       in [:PATH, pathspec]
         [gitspec]
@@ -35,6 +36,14 @@ module Parsers
     def build_gem_spec(gs)
       gem_branch_dependency = GemBranchDependency.new(gs)
       BranchDependency.new(name: gs[:name], gem: gem_branch_dependency)
+    end
+
+    def normalize_git_uri(gitspec)
+      duplicated_spec = gitspec.dup
+      if gitspec.has_key?(:remote)
+        duplicated_spec[:remote] = ProjectUriNormalizer.normalize(gitspec[:remote])
+      end
+      duplicated_spec
     end
   end
 end
