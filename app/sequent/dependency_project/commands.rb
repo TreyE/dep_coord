@@ -6,7 +6,8 @@ class CreateDependencyProject < Sequent::Command
   })
 
   def self.create(project_name,git_uri,main_branch)
-    aggregate_id = "#{git_uri}__#{project_name}"
+    normalized_uri = ProjectUriNormalizer.normalize(git_uri)
+    aggregate_id = "#{normalized_uri}__#{project_name}"
     self.new({
       aggregate_id: aggregate_id,
       name: project_name,
@@ -25,7 +26,8 @@ class AddBranchDependency < Sequent::Command
   })
 
   def self.create(project_name,git_uri,branch_name,branch_revision,version_timestamp,branch_dependency)
-    aggregate_id = "#{git_uri}__#{project_name}"
+    normalized_uri = ProjectUriNormalizer.normalize(git_uri)
+    aggregate_id = "#{normalized_uri}__#{project_name}"
     self.new({
       aggregate_id: aggregate_id,
       branch_name: branch_name,

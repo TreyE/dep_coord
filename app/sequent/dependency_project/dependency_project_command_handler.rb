@@ -1,6 +1,8 @@
 class DependencyProjectCommandHandler < Sequent::CommandHandler
   on CreateDependencyProject do |command|
-    repository.add_aggregate DependencyProject.new(command)
+    if !repository.contains_aggregate?(command.aggregate_id)
+      repository.add_aggregate DependencyProject.new(command)
+    end
   end
 
   on AddBranchDependency do |command|
