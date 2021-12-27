@@ -1,9 +1,9 @@
-require_relative '../../app/sequent/dependency_project'
-require_relative '../../app/sequent/dependency_source'
-require_relative '../../app/sequent/out_of_date_dependency'
+require_relative '../../sequent/dependency_project'
+require_relative '../../sequent/dependency_source'
+require_relative '../../sequent/out_of_date_dependency'
 # require_relative '../../app/sequent/projectors'
 require_relative '../../db/sequent_migrations'
-  
+
 Sequent.configure do |config|
  config.migrations_class_name = 'SequentMigrations'
 
