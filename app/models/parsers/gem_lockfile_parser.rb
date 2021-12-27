@@ -25,7 +25,7 @@ module Parsers
         git_branch_dependency = GitBranchDependency.new(dependency_properties)
         [BranchDependency.new(name: gitspec[:name], git: git_branch_dependency)]
       in [:PATH, pathspec]
-        [gitspec]
+        [pathspec]
       in [:GEMS, _, gemspecs]
         gemspecs.map { |gs| build_gem_spec(gs) }
       else

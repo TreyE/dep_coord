@@ -17,6 +17,7 @@ module WebhookProcessors
           @project_name,
           @repo_name,
           @default_branch,
+          @branch,
           @sha,
           @gemfile_uri
         )
