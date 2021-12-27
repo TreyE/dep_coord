@@ -55,9 +55,10 @@ module WebhookProcessors
     def parse_github_lookup_uri(payload)
       repo_section = payload["repository"]
       return if repo_section.blank?
-      download_url_value = repo_section["downloads_url"]
+      download_url_value = repo_section["contents_url"]
       return if download_url_value.blank?
-      @gemfile_uri = "#{download_url_value}/#{@sha}/Gemfile.lock"
+      download_url_base = download_url_value.chomp("{+path}")
+      @gemfile_uri = "#{download_url_value}Gemfile.lock?ref=#{@sha}"
     end
   end
 end
