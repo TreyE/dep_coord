@@ -54,3 +54,4 @@ gem 'citrus'
 gem 'sequent', git: 'https://github.com/zilverline/sequent'
 gem 'github_webhook', '~> 1.4'
 gem "sidekiq"
+gem "faraday"
