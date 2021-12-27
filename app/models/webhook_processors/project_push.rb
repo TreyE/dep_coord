@@ -58,7 +58,7 @@ module WebhookProcessors
       download_url_value = repo_section["contents_url"]
       return if download_url_value.blank?
       download_url_base = download_url_value.chomp("{+path}")
-      @gemfile_uri = "#{download_url_value}Gemfile.lock?ref=#{@sha}"
+      @gemfile_uri = "#{download_url_base}Gemfile.lock?ref=#{@sha}"
     end
   end
 end
