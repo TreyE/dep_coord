@@ -43,6 +43,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
+  gem 'rack-test'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
 end
@@ -51,3 +52,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'citrus'
 gem 'sequent', git: 'https://github.com/zilverline/sequent'
+gem 'github_webhook', '~> 1.4'
+gem "sidekiq"

@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   resources :projects, only: [:index]
   resources :branch_version_records, only: [:show]
 
+  resource :project_update_hooks, only: :create, defaults: { formats: :json }
+
   root "projects#index"
 end

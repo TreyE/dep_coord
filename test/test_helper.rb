@@ -1,4 +1,5 @@
 ENV['RAILS_ENV'] ||= 'test'
+ENV['GITHUB_WEBHOOK_SECRET'] ||= "TEST SECRET"
 require_relative "../config/environment"
 require "rails/test_help"
 
