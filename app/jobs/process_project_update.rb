@@ -18,7 +18,7 @@ class ProcessProjectUpdate
     content_b64 = content_data["content"]
     decoded_data = Base64.decode64(content_b64)
     parser = Parsers::GemLockfileParser.new
-    results = parser.parse(decoded_data)
+    result = parser.parse(decoded_data)
     results = result.select { |r| r.is_a?(BranchDependency) }
     commands = results.map do |res|
       AddBranchDependency.create(
