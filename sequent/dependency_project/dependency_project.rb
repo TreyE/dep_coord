@@ -25,7 +25,7 @@ class DependencyProject < Sequent::AggregateRoot
         end
       else
         apply BranchVersionCreated, {branch_name: branch_name, branch_revision: branch_revision, version_timestamp: version_timestamp}
-        if most_recent_branch_timestamp.blank? || (most_recent_branch_timestamp < version_timestamp)
+        if most_recent_branch_version.blank? || (most_recent_branch_version.version_timestamp < version_timestamp)
           apply BranchVersionSelected, {branch_name: branch_name, branch_revision: branch_revision}
         end
         apply BranchDependencyCreated, {branch_name: branch_name, branch_revision: branch_revision, branch_dependency: branch_dependency}
