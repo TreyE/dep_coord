@@ -26,7 +26,7 @@ class ProcessProjectUpdate
         repo_name,
         branch,
         sha,
-        Time.now,
+        Time.now.to_datetime,
         res
       )
     end
