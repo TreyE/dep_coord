@@ -11,7 +11,7 @@ class CreateDependencySource < Sequent::Command
     self.new({
       aggregate_id: aggregate_id,
       name: project_name,
-      remote: git_uri,
+      remote: normalized_uri,
       main_branch: main_branch
     })
   end
