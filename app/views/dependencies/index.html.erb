@@ -1,0 +1,16 @@
+<div class="pure-u-1">
+<h1>Dependencies</h1>
+
+<ul>
+<% @dependencies.each do |dependency| %>
+  <li>
+  <%= dependency.name %> - <%= dependency.main_branch%>
+  <ul>
+    <% dependency.dependency_source_branch_records.each do |branch| %>
+      <li><%= branch.name %> - <%= branch.head %></li>
+    <% end %>
+  </ul>
+  </li>
+<% end %>
+</ul>
+</div>
