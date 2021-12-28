@@ -9,6 +9,7 @@ module WebhookProcessors
       parse_repo_name(payload)
       parse_github_lookup_uri(payload)
       parse_default_branch(payload)
+      parse_head_commit_timestamp(payload)
     end
 
     def enqueue
@@ -19,12 +20,19 @@ module WebhookProcessors
           @default_branch,
           @branch,
           @sha,
+          @update_timestamp,
           @gemfile_uri
         )
       end
     end
 
     private
+
+    def parse_head_commit_timestamp(payload)
+      hc_section = payload["head_commit"]
+      return if hc_section.blank?
+      @update_timestamp = DateTime.iso8601(hc_section["timestamp"])
+    end
 
     def parse_default_branch(payload)
       repo_section = payload["repository"]

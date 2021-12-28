@@ -9,6 +9,7 @@ class ProcessProjectUpdate
     default_branch,
     branch,
     sha,
+    update_timestamp,
     gemfile_uri
   )
     command = CreateDependencyProject.create(project_name, repo_name, default_branch)
@@ -26,7 +27,7 @@ class ProcessProjectUpdate
         repo_name,
         branch,
         sha,
-        Time.now.to_datetime,
+        update_timestamp,
         res
       )
     end
