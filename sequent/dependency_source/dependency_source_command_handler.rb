@@ -1,6 +1,8 @@
 class DependencySourceCommandHandler < Sequent::CommandHandler
   on CreateDependencySource do |command|
-    repository.add_aggregate DependencySource.new(command)
+    if !repository.contains_aggregate?(command.aggregate_id)
+      repository.add_aggregate DependencySource.new(command)
+    end
   end
 
   on AddDependencySourceBranch do |command|
