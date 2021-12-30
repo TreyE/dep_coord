@@ -6,3 +6,4 @@ CREATE TABLE dependency_source_branch_version_records%SUFFIX% (
 );
 
 CREATE INDEX dsbvr_dsbr_id%SUFFIX% ON dependency_source_branch_version_records%SUFFIX% USING btree (dependency_source_branch_record_id);
+CREATE INDEX dsbvr_sha%SUFFIX% ON dependency_source_branch_version_records%SUFFIX% USING btree (sha);

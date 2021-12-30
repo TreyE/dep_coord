@@ -7,3 +7,4 @@ CREATE TABLE dependency_source_records%SUFFIX% (
 );
 
 CREATE INDEX dependency_source_records_aggregate_id%SUFFIX% ON dependency_source_records%SUFFIX% USING btree (aggregate_id);
+CREATE INDEX dependency_source_records_name%SUFFIX% ON dependency_source_records%SUFFIX% USING btree (name);

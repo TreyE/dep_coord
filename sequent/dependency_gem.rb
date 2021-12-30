@@ -1,0 +1,7 @@
+require_relative "dependency_gem/commands"
+require_relative "dependency_gem/events"
+require_relative "dependency_gem/dependency_gem"
+require_relative "dependency_gem/dependency_gem_command_handler"
+require_relative "dependency_gem/dependency_gem_record"
+require_relative "dependency_gem/dependency_gem_projector"
+require_relative "dependency_gem/dependency_gem_workflow"

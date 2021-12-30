@@ -11,3 +11,6 @@ CREATE TABLE branch_dependency_records%SUFFIX% (
 
 CREATE INDEX bdr_bvr_id%SUFFIX% ON branch_dependency_records%SUFFIX% USING btree (branch_version_record_id);
 CREATE INDEX bdr_name%SUFFIX% ON branch_dependency_records%SUFFIX% USING btree (name);
+CREATE INDEX bdr_kind%SUFFIX% ON branch_dependency_records%SUFFIX% USING btree (kind);
+CREATE INDEX bdr_revision%SUFFIX% ON branch_dependency_records%SUFFIX% USING btree (revision);
+CREATE INDEX bdr_branch%SUFFIX% ON branch_dependency_records%SUFFIX% USING btree (branch);

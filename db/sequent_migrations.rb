@@ -10,7 +10,8 @@ class SequentMigrations < Sequent::Migrations::Projectors
      '1' => [
        DependencyProjectProjector,
        DependencySourceProjector,
-       OutOfDateDependencyProjector
+       OutOfDateDependencyProjector,
+       DependencyGemProjector
        # List of migrations for version 1
      ],
    }

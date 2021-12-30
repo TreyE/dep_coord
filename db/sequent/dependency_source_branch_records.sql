@@ -6,3 +6,4 @@ CREATE TABLE dependency_source_branch_records%SUFFIX% (
 );
 
 CREATE INDEX dsbr_dsr_aggregate_id%SUFFIX% ON dependency_source_branch_records%SUFFIX% USING btree (dependency_source_record_aggregate_id);
+CREATE INDEX dsbr_name%SUFFIX% ON dependency_source_branch_records%SUFFIX% USING btree (name);
