@@ -35,7 +35,7 @@ class ProjectBranchBaseliner
     @default_branch = repository.default_branch
     branch_info = client.branch(@repo_name, @branch)
     @sha = branch_info.commit.sha
-    @update_timestamp = branch_info.commit.commit.author.date
+    @update_timestamp = branch_info.commit.commit.author.date.to_datetime
     contents_url_value = repository.contents_url
     download_url_base = contents_url_value.chomp("{+path}")
     @contents_url = "#{download_url_base}Gemfile.lock?ref=#{@sha}"
