@@ -55,3 +55,4 @@ gem 'sequent', git: 'https://github.com/zilverline/sequent'
 gem 'github_webhook', '~> 1.4'
 gem "sidekiq"
 gem "faraday"
+gem "octokit", "~> 4.0"
