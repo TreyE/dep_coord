@@ -2,7 +2,6 @@ class RubyConstraintVersion
   attr_reader :min_version, :max_version
 
   def initialize(min_v, max_v)
-
     if min_v == "000000.000000.000000"
       @min_version = nil
     else
@@ -119,6 +118,18 @@ class RubyConstraintVersion
         max = min
         self.new(min, max)
       end
+    end
+  end
+
+  def self.stored_string_to_version_string(version_string)
+    return nil if version_string.blank?
+    components = version_string.split(".")
+    if (components[2] == "999999") && (components[1] == "999999")
+      "< #{(components[0].to_i + 1).to_s}.0.0"
+    elsif (components[2] == "999999")
+      "< #{components[0].to_i}.#{(components[1].to_i + 1).to_s}.0"
+    else
+      components.map(&:strip).map(&:to_i).map(&:to_s).join(".")
     end
   end
 end

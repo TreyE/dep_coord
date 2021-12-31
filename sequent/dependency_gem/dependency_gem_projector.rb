@@ -1,5 +1,5 @@
 class DependencyGemProjector < Sequent::Projector
-  manages_tables DependencyGemRecord
+  manages_tables DependencyGemRecord, BranchVersionRubyVersionRecord
 
   on DependencyGemCreated do |event|
     create_record(

@@ -2,6 +2,7 @@ class BranchVersionRecord < Sequent::ApplicationRecord
   belongs_to :dependency_project_branch_record
   has_many :branch_dependency_records
   has_many :out_of_date_dependency_records
+  has_one :branch_version_ruby_version_record
 
   delegate :project_name, to: :dependency_project_branch_record
 
