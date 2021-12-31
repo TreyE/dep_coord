@@ -20,6 +20,17 @@
   </ul>
 <% end %>
 
+<% branch_version_ruby_version_record = @branch_version_record.branch_version_ruby_version_record %>
+<% if branch_version_ruby_version_record %>
+  <h2>Derived Ruby Version Constraints</h2>
+  <% if !branch_version_ruby_version_record.min_ruby_version_number.blank? %>
+    <p>Min: <%= branch_version_ruby_version_record.min_ruby_version_number %></p>
+  <% end %>
+  <% if !branch_version_ruby_version_record.min_ruby_version_number.blank? %>
+    <p>Max: <%= branch_version_ruby_version_record.max_ruby_version_number %></p>
+  <% end %>
+<% end %>
+
 <% gem_dependencies = @branch_version_record.branch_dependency_records.select(&:gem?) %>
 <% if gem_dependencies.any? %>
   <h2>Gems</h2>
