@@ -1,5 +1,29 @@
 desc "Load the example data"
 task :load_example_data => :environment do
+  dependencies = [
+    ["ideacrew/event_source", "trunk"],
+    ["ideacrew/resource_registry", "trunk"],
+    ["ideacrew/acapi", "trunk"],
+    ["ideacrew/aca_entities", "trunk"]
+  ]
+
+  dependencies.each do |dep|
+    dsb = DependencySourceBaseliner.new(*dep)
+    dsb.baseline!
+  end
+
+  projects = [
+    ["ideacrew/enroll", "trunk"],
+    ["ideacrew/gluedb", "trunk"],
+    ["ideacrew/gluedb", "me_carrier_boarding"]
+  ]
+
+  projects.each do |proj|
+    pbb = ProjectBranchBaseliner.new(*proj)
+    pbb.baseline!
+  end
+
+=begin
   command = CreateDependencyProject.create("enroll", "git@github.com:ideacrew/enroll.git", "trunk")
   Sequent.command_service.execute_commands command
 
@@ -68,9 +92,11 @@ task :load_example_data => :environment do
     "aca_entities",
     "https://github.com/ideacrew/aca_entities.git",
     "trunk",
-    "a8d35405d301c751351ae59b4b26bdda182ee9fa",
-    DateTime.new(2021,10,20,16,11,41)
+    "a3f2fbeaf278996b20139ba2b4528420b3f74afd",
+    DateTime.new(2021,12,27,15,46,32)
   )
+
+  Sequent.command_service.execute_commands add_ae_branch_command
 
   Sequent.command_service.execute_commands(
     create_source_command,
@@ -80,4 +106,5 @@ task :load_example_data => :environment do
     create_ae_source_command,
     add_ae_branch_command
   )
+=end
 end

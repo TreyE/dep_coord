@@ -10,7 +10,35 @@ class RubyConstraintVersion
     @max_version = max_v
   end
 
+  def &(other)
+    self.new(pick_min(self,other), pick_max(self,other))
+  end
+
+  def pick_min(me, other)
+    non_nils = [me.min_version, other.min_version].compact
+    return nil if non_nils.empty?
+    non_nils.sort.last
+  end
+
+  def pick_max(me, other)
+    non_nils = [me.max_version, other.max_version].compact
+    return nil if non_nils.empty?
+    non_nils.sort.first
+  end
+
   def self.from_constraint_string(version_string)
+    version_set = version_string.split(",").map do |v_s|
+      self.parse_constraint_string(v_s)
+    end
+    clean_versions = version_set.compact
+    return clean_versions.first if clean_versions.length < 2
+    first, *rest = clean_versions
+    rest.inject(first) do |acc, vers|
+      acc & vers
+    end
+  end
+
+  def self.parse_constraint_string(version_string)
     return nil if version_string.index(",")
     first_number = version_string.index(/[0-9]/)
     return nil unless first_number
