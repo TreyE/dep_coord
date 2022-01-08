@@ -11,7 +11,7 @@ class RubyConstraintVersion
   end
 
   def &(other)
-    self.new(pick_min(self,other), pick_max(self,other))
+    RubyConstraintVersion.new(pick_min(self,other), pick_max(self,other))
   end
 
   def pick_min(me, other)

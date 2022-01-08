@@ -22,11 +22,12 @@ task :load_example_data => :environment do
     pbb = ProjectBranchBaseliner.new(*proj)
     pbb.baseline!
   end
-
+=begin
   dep_command = ResolveDependencyGemRubyVersions.new({
     aggregate_id: "rails__3.2.22.5",
     min_version: "000001.000008.000007",
     max_version: "000002.000001.999999"
   })
   Sequent.command_service.execute_commands dep_command
+=end
 end

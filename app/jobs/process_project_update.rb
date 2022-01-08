@@ -14,10 +14,9 @@ class ProcessProjectUpdate
   )
     command = CreateDependencyProject.create(project_name, repo_name, default_branch)
     Sequent.command_service.execute_commands command
-    response = Faraday.get gemfile_uri
-    content_data = JSON.parse(response.body)
-    content_b64 = content_data["content"]
-    decoded_data = Base64.decode64(content_b64)
+    client = OctokitClient.build
+    contents = client.contents(repo_name, :path => "Gemfile.lock", :ref => sha)
+    decoded_data = Base64.decode64(contents.content)
     parser = Parsers::GemLockfileParser.new
     result = parser.parse(decoded_data)
     results = result.select { |r| r.is_a?(BranchDependency) }

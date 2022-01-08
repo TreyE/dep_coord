@@ -6,7 +6,9 @@ CREATE TABLE branch_dependency_records%SUFFIX% (
   version_constraint varchar(512),
   revision varchar(1024),
   branch varchar(1024),
-  remote varchar(1024)
+  remote varchar(1024),
+  CONSTRAINT bdr_bvr_id_fk%SUFFIX% FOREIGN KEY (branch_version_record_id)
+  REFERENCES branch_version_records%SUFFIX% (id)
 );
 
 CREATE INDEX bdr_bvr_id%SUFFIX% ON branch_dependency_records%SUFFIX% USING btree (branch_version_record_id);

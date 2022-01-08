@@ -24,7 +24,7 @@ class DependencySourceBaseliner
   end
 
   def query!
-    client = Octokit::Client.new
+    client = OctokitClient.build
     repository = client.repository(@repo_name)
     @project_name = repository.name
     @default_branch = repository.default_branch

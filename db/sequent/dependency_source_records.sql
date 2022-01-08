@@ -1,6 +1,6 @@
 CREATE TABLE dependency_source_records%SUFFIX% (
   id BIGSERIAL PRIMARY KEY,
-  aggregate_id varchar(1024) NOT NULL,
+  aggregate_id varchar(1024) UNIQUE NOT NULL,
   name varchar(1024) NOT NULL,
   main_branch varchar(1024) NOT NULL,
   remote varchar(1024) NOT NULL

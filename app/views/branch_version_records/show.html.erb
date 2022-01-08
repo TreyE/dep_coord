@@ -25,9 +25,21 @@
   <h2>Derived Ruby Version Constraints</h2>
   <% if !branch_version_ruby_version_record.min_ruby_version_number.blank? %>
     <p>Min: <%= branch_version_ruby_version_record.min_ruby_version_number %></p>
+    <p>From Gems:</p>
+    <ul>
+      <% branch_version_ruby_version_record.minimum_gems_for_version.each do |dgr| %>
+        <li><%= dgr.name %> - <%= dgr.version %></li>
+      <% end %>
+    </ul>
   <% end %>
   <% if !branch_version_ruby_version_record.max_ruby_version_number.blank? %>
     <p>Max: <%= branch_version_ruby_version_record.max_ruby_version_number %></p>
+    <p>From Gems:</p>
+    <ul>
+      <% branch_version_ruby_version_record.maximum_gems_for_version.each do |dgr| %>
+        <li><%= dgr.name %> - <%= dgr.version %></li>
+      <% end %>
+    </ul>
   <% end %>
 <% end %>
 
