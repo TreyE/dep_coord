@@ -3,9 +3,11 @@ create view out_of_date_dependency_records%SUFFIX% as
     pdb.id as dependency_project_branch_record_id,
     bdr.id as branch_dependency_record_id,
     bvr.id as branch_version_record_id,
+    bvr.version_timestamp as branch_version_update_timestamp,
     bdr.name as dependency_name,
     bdr.revision as dependency_version,
-    dsbr.head as head_version
+    dsbvr.version_timestamp as dependency_source_update_timestamp,
+    dsbvr.sha as head_version
     from branch_dependency_records%SUFFIX% bdr
     join branch_version_records%SUFFIX% bvr on bdr.branch_version_record_id = bvr.id
     join dependency_project_branch_records%SUFFIX% pdb on bvr.dependency_project_branch_record_id = pdb.id
