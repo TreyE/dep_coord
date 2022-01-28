@@ -9,6 +9,12 @@ class ProjectUpdateHooksController < ApplicationController
     head :ok
   end
 
+  def github_delete(payload)
+    processor = WebhookProcessors::BranchDelete.new(payload)
+    processor.enqueue
+    head :ok
+  end
+
   private
 
   def webhook_secret(payload)
