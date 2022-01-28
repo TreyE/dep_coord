@@ -10,5 +10,11 @@ class DependencyProjectCommandHandler < Sequent::CommandHandler
       aggregate.add_branch_dependency(command.branch_name, command.branch_revision, command.version_timestamp, command.branch_dependency)
     end
   end
+
+  on DeleteProjectBranch do |command|
+    do_with_aggregate(command, DependencyProject) do |aggregate|
+      aggregate.delete_branch(command.name)
+    end
+  end
 end
 

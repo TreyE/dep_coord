@@ -14,6 +14,12 @@ class DependencyProjectBranchCreated < Sequent::Event
   })
 end
 
+class DependencyProjectBranchDeleted < Sequent::Event
+  attrs({
+    name: String
+  })
+end
+
 class BranchDependencyCreated < Sequent::Event
   attrs({
     branch_name: String,

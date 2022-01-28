@@ -37,3 +37,18 @@ class AddBranchDependency < Sequent::Command
     })
   end
 end
+
+class DeleteProjectBranch < Sequent::Command
+  attrs({
+    name: String
+  })
+
+  def self.create(project_name,git_uri,branch_name)
+    normalized_uri = ProjectUriNormalizer.normalize(git_uri)
+    aggregate_id = "#{normalized_uri}__#{project_name}"
+    self.new({
+      aggregate_id: aggregate_id,
+      name: branch_name
+    })
+  end
+end

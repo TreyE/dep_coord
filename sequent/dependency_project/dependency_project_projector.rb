@@ -32,6 +32,17 @@ class DependencyProjectProjector < Sequent::Projector
     )
   end
 
+  on DependencyProjectBranchDeleted do |event|
+    b_record = get_record(DependencyProjectBranchRecord, {dependency_project_record_aggregate_id: event.aggregate_id, name: event.name})
+    if b_record
+      find_records(BranchVersionRecord, {dependency_project_branch_record_id: b_record.id}).each do |record|
+        delete_all_records(BranchDependencyRecord, {branch_version_record_id: record.id})
+      end
+      delete_all_records(BranchVersionRecord, {dependency_project_branch_record_id: b_record.id})
+      delete_all_records(DependencyProjectBranchRecord, {dependency_project_record_aggregate_id: event.aggregate_id, name: event.name})
+    end
+  end
+
   on BranchVersionCreated do |event|
     dp_record = get_record!(DependencyProjectRecord, {aggregate_id: event.aggregate_id})
     b_record = get_record!(DependencyProjectBranchRecord, {dependency_project_record_aggregate_id: event.aggregate_id, name: event.branch_name})

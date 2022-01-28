@@ -33,6 +33,10 @@ class DependencyProject < Sequent::AggregateRoot
     end
   end
 
+  def delete_branch(branch_name)
+    apply DependencyProjectBranchDeleted, {name: branch_name}
+  end
+
   on DependencyProjectCreated do |event|
     @name = event.name
     @main_branch = event.main_branch
@@ -52,6 +56,13 @@ class DependencyProject < Sequent::AggregateRoot
       versions: [new_version]
     })
     @branches << new_branch
+  end
+  
+  on DependencyProjectBranchDeleted do |event|
+    _discarded, kept = @branches.partition do |branch|
+      branch.name == event.name
+    end
+    @branches = kept
   end
 
   on BranchDependencyCreated do |event|
