@@ -7,22 +7,35 @@ module WebhookProcessors
       parse_project_name(payload)
       parse_branch_name(payload)
       parse_repo_name(payload)
-      parse_github_lookup_uri(payload)
-      parse_default_branch(payload)
-      parse_head_commit_timestamp(payload)
+      @is_delete_push = false
+      if @sha != "0000000000000000000000000000000000000000"
+        parse_github_lookup_uri(payload)
+        parse_default_branch(payload)
+        parse_head_commit_timestamp(payload)
+      else
+        @is_delete_push = true
+      end
     end
 
     def enqueue
       if @is_branch
-        ProcessProjectUpdate.perform_async(
-          @project_name,
-          @repo_name,
-          @default_branch,
-          @branch,
-          @sha,
-          @update_timestamp,
-          @gemfile_uri
-        )
+        if @is_delete_push
+          ProcessBranchDelete.perform_async(
+            @project_name,
+            @repo_name,
+            @branch
+          )
+        else
+          ProcessProjectUpdate.perform_async(
+            @project_name,
+            @repo_name,
+            @default_branch,
+            @branch,
+            @sha,
+            @update_timestamp,
+            @gemfile_uri
+          )
+          end
       end
     end
 
